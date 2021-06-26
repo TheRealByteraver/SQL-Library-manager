@@ -3,6 +3,9 @@ block content
   h1 Books
   p
     a.button(href="/books/new") Create New Book
+  form#search-form(action="#", method="get")
+    input#search-input(type="search", class="search-input", placeholder="Search...")
+    input#search-submit(type="submit", value="🔍", class="search-submit")
   table
     thead
       tr

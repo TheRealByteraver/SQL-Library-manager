@@ -41,7 +41,6 @@ router.post('/books/new', asyncHandler(async (req, res) => {
   try {
     book = await Book.create(req.body);
     res.redirect('/books');
-    // res.redirect("/books/" + book.id);
   } catch(error) {
     if (error.name === "SequelizeValidationError") { // checking the error
       book = await Book.build(req.body);
@@ -71,12 +70,11 @@ router.post('/books/:id', asyncHandler(async (req, res) => {
     if(book) {
       await book.update(req.body);
       res.redirect('/books');
-      // res.redirect("/books/" + book.id);
-      } else {
-        const error = new Error('The book you are trying to update does not exist anymore.🤷‍♂️');
-        error.status = 404; // http 404 == not found
-        throw error;        // let the error handler below handle it further    
-      }  
+    } else {
+      const error = new Error('The book you are trying to update does not exist anymore.🤷‍♂️');
+      error.status = 404; // http 404 == not found
+      throw error;        // let the error handler below handle it further    
+    }  
   } catch(error) {
     if (error.name === "SequelizeValidationError") { // checking the error
       book = await Book.build(req.body);
