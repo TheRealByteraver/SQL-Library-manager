@@ -37,8 +37,10 @@ app.use('/users', usersRouter);
 // catch 404 errors
 app.use(function(req, res, next) {
   const err = new Error('The page you are looking for does not exist.🤷‍♂️');
-  res.status(404);
-  res.render('page-not-found.pug', { title: 'Page Not Found', error: err });
+  err.status = 404;
+  next(err); // let the error handler below handle it further    
+  // res.status(404);
+  // res.render('page-not-found.pug', { title: 'Page Not Found', error: err });
 });
 
 // catch all other errors
@@ -51,9 +53,15 @@ app.use(function(err, req, res, next) {
     ? err.message 
     : 'Internal Server Error 🙅‍♂️';
 
-  // render the error page
+  // tell the browser what is going on
   res.status(err.status);
-  res.render('error.pug', { title: 'Page Not Found', error: err });
+
+  // render the error page
+  if (err.status === 404) {
+    res.render('page-not-found.pug', { title: 'Page Not Found', error: err });
+  } else {
+    res.render('error.pug', { title: 'Page Not Found', error: err });
+  }
 });
 
 module.exports = app;

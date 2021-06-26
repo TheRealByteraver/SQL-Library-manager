@@ -1,7 +1,12 @@
 extends layout
 block content
   h1 Update Book
-  form
+  form(action=`/books/${book.id}`, method="POST")
+    if errors 
+      h2.error Oooops!
+      ul.error
+        each error in errors
+          li= error.message
     p
       label(for="title") Title
       input#title(name="title" type="text" value=`${book.title}`)
