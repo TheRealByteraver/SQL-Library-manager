@@ -3,6 +3,27 @@ var router = express.Router();
 
 const Book = require('../models').Book;
 
+
+// ****************************************************************************
+// ****************************************************************************
+// Additional code for the pagination function. Page numbers are 1 - based.
+const booksPerPage = 8;
+
+function getNrOfPages(books) {
+  return Math.ceil(books.length / booksPerPage);
+}
+
+// takes an array of Book objects and returns a subsection of that array:
+function getBooksForPage(books, pageNr) {
+  // the array.slice(start, end) method returns an array excluding element 
+  // indexed with 'end', so 'endIndex' is one beyond the last index:
+  const startIndex = Math.min(booksPerPage * (pageNr - 1), books.length - 1);
+  const endIndex = Math.min(startIndex + booksPerPage, books.length);  
+  return books.slice(startIndex, endIndex);
+}
+// ****************************************************************************
+// ****************************************************************************
+
 /* Handler function to wrap each route. */
 function asyncHandler(callbackFn) {
   return async(req, res, next) => {
@@ -20,14 +41,37 @@ router.get('/', asyncHandler(async (req, res) => {
   res.redirect('/books');
 }));
 
-// get /books - Shows the full list of books
+// get /books - Redirects to /books/pages/1
 router.get('/books', asyncHandler(async (req, res) => {
+  res.redirect('/books/pages/1');
+}));
+
+// get /books/pages/pageNr - Show the requested pageNr from the full list
+// of books and initialize pagination
+router.get('/books/pages/:pageNr', asyncHandler(async (req, res) => {
   const books = await Book.findAll({
     order: [
       ["author", "ASC"]
     ]
   });
-  res.render('index.pug', { title: 'Books', books });
+  // get page nr from url and check if it is within bounds
+  const requestedPage = +req.params.pageNr;
+  const nrOfPages = getNrOfPages(books);
+  if(isNaN(requestedPage) || requestedPage < 1 || requestedPage > nrOfPages) {
+    res.redirect('/books/pages/1');
+  } else {
+    // render the page
+    res.render('index.pug', { 
+      title: 'Books', 
+      books: getBooksForPage(books, requestedPage),
+      nrOfPages,
+      requestedPage,
+      // onClickHandler: (event) => {
+      //   console.log('event.target.textContent: ', event.target.textContent);
+      //   window.location = `/books/pages/${event.target.textContent}`;
+      // } 
+    });
+  }
 }));
 
 // get /books/new - Shows the create new book form

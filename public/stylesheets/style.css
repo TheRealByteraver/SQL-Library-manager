@@ -104,13 +104,22 @@ input[type=text] {
 } */
 
 .search-input {
-  padding: 0.4rem 1rem;
-  border: 1px solid rgba(200, 200, 200, 0.9);
+  border-width: 2px;
+  /* border-style: inset;
+  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+  border-image: initial; */
+
   border-radius: 0.25rem 0 0 0.25rem ;
   max-width: 20rem;
   transition: .4s ease-out;
   outline: none;
-  /* display: inline; */
+
+  padding: 10px;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  border-radius: 2px;
+  border-color: #E7E7E7;
+  transition: 0.4s;  
 }
 
 .search-input:active, .search-input:hover, .search-input:focus {
@@ -128,7 +137,44 @@ input[type=text] {
   margin-left: 4px;
 }
 
+#search-submit {
+  margin-left: 4px;
+  padding-bottom: 30px;
+}
+
+
 .search-submit:active, .search-submit:hover, .search-submit:focus {
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(50, 50, 50, 0.9);
+}
+
+/* For the pagination buttons: */
+.pagination li {
+  display: inline;
+  padding: 0 3px;
+}
+
+.pagination li button {
+  font-size: 1em;
+  cursor: pointer;
+	outline: none;
+	padding: 0.5em 0.85em;
+	background: #fff;
+  border: none;
+  border-radius: 3px;
+  text-decoration: none;
+	color: #019875;
+	box-shadow: 0 1px 8px 0 rgba(22, 42, 90, 0.05);
+	transition: 0.4s;
+}
+
+.pagination li button.active, .pagination li button:hover {
+  background-color: #019875;
+  color: #fff;
+}
+
+.link-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

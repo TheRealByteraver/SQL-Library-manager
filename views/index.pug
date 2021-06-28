@@ -21,3 +21,12 @@ block content
           td= book.author
           td= book.genre
           td= book.year
+  p
+  .pagination          
+    - var index = 1;
+    ul.link-list
+      while index <= nrOfPages
+        li 
+          button(type="button", class=`${ (index === requestedPage) ? "active" : ""}`)= index
+          - index++;
+  script(src="/public/javascripts/script.js")
