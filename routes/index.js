@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+const { Op } = require('sequelize');
 const Book = require('../models').Book;
 
 
 // ****************************************************************************
 // ****************************************************************************
 // Additional code for the pagination function. Page numbers are 1 - based.
-const booksPerPage = 8;
+const booksPerPage = 4;
 
 function getNrOfPages(books) {
   return Math.ceil(books.length / booksPerPage);
@@ -56,7 +57,7 @@ router.get('/books/pages/:pageNr', asyncHandler(async (req, res) => {
   });
   // get page nr from url and check if it is within bounds
   const requestedPage = +req.params.pageNr;
-  const nrOfPages = getNrOfPages(books);
+  const nrOfPages = Math.max(1, getNrOfPages(books));
   if(isNaN(requestedPage) || requestedPage < 1 || requestedPage > nrOfPages) {
     res.redirect('/books/pages/1');
   } else {
@@ -65,11 +66,62 @@ router.get('/books/pages/:pageNr', asyncHandler(async (req, res) => {
       title: 'Books', 
       books: getBooksForPage(books, requestedPage),
       nrOfPages,
-      requestedPage,
-      // onClickHandler: (event) => {
-      //   console.log('event.target.textContent: ', event.target.textContent);
-      //   window.location = `/books/pages/${event.target.textContent}`;
-      // } 
+      requestedPage
+    });
+  }
+}));
+
+// get /books/search/pageNr - show search results
+router.get('/books/search/:pageNr', asyncHandler(async (req, res) => {
+  const searchTag = req.query.searchValue;
+
+  // Go to the default page if the search tag is empty
+  if (searchTag === '') {
+    res.redirect('/books');  
+  }
+  // Perform the search on the database:
+  const books = await Book.findAll({
+    order: [
+      ["author", "ASC"]
+    ],
+    where: {
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: `${searchTag}`
+          }  
+        },
+        {
+          author: {
+            [Op.substring]: `${searchTag}`
+          }  
+        },
+        {
+          genre: {
+            [Op.substring]: `${searchTag}`
+          }  
+        },
+        {
+          year: {
+            [Op.eq]: searchTag
+          }  
+        }
+      ]
+    }
+  });
+  // get page nr from url and check if it is within bounds
+  const requestedPage = +req.params.pageNr;
+  const nrOfPages = Math.max(1, getNrOfPages(books));
+  if(isNaN(requestedPage) || requestedPage < 1 || requestedPage > nrOfPages) {
+    // It isn't, redirect to the first page
+    res.redirect(`/books/search/1?searchValue=${req.query.searchValue}`);
+  } else {
+    // It is, render the page
+    res.render('index.pug', { 
+      title: 'Search Results', 
+      books: getBooksForPage(books, requestedPage),
+      nrOfPages,
+      requestedPage
     });
   }
 }));

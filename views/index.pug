@@ -3,8 +3,8 @@ block content
   h1 Books
   p
     a.button(href="/books/new") Create New Book
-  form#search-form(action="#", method="get")
-    input#search-input(type="search", class="search-input", placeholder="Search...")
+  form#search-form(action="/books/search/1", method="get")
+    input#search-input(type="search", name="searchValue" class="search-input", placeholder="Search...")
     input#search-submit(type="submit", value="🔍", class="search-submit")
   table
     thead
@@ -21,6 +21,8 @@ block content
           td= book.author
           td= book.genre
           td= book.year
+      else 
+        h3 Bummer, no books found!
   p
   .pagination          
     - var index = 1;
