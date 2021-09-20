@@ -29,7 +29,7 @@ app.use('/users', usersRouter);
     await sequelize.sync();
     console.log('Successfully connected to the database');
   } catch(error) {
-    console.log('Error occured connecting to the database: ', error);
+    console.log('Error occurred connecting to the database: ', error);
   }
 })();
 

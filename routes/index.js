@@ -8,7 +8,7 @@ const Book = require('../models').Book;
 // ****************************************************************************
 // ****************************************************************************
 // Additional code for the pagination function. Page numbers are 1 - based.
-const booksPerPage = 4;
+const booksPerPage = 8;
 
 function getNrOfPages(books) {
   return Math.ceil(books.length / booksPerPage);
