@@ -1,14 +1,23 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "library.db"
+    "username": "sql11440457",
+    "password": "yw3NGcx5jt",
+    "database": "sql11440457",
+    "host": "sql11.freemysqlhosting.net",
+    "dialect": "mysql"
   },
   "test": {
-    "dialect": "sqlite",
-    "storage": "library.db"
+    "username": "sql11440457",
+    "password": "yw3NGcx5jt",
+    "database": "sql11440457",
+    "host": "sql11.freemysqlhosting.net",
+    "dialect": "mysql"
   },
   "production": {
-    "dialect": "sqlite",
-    "storage": "library.db"
+    "username": "sql11440457",
+    "password": "yw3NGcx5jt",
+    "database": "sql11440457",
+    "host": "sql11.freemysqlhosting.net",
+    "dialect": "mysql"
   }
 }
