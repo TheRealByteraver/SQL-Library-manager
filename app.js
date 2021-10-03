@@ -1,3 +1,4 @@
+// NOTE: to start the app, start the file /bin/www, NOT this app.js file!!!
 // const createError = require('http-errors');
 const express = require('express');
 const path = require('path');

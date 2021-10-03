@@ -1,10 +1,7 @@
 {
   "development": {
-    "username": "sql11440457",
-    "password": "yw3NGcx5jt",
-    "database": "sql11440457",
-    "host": "sql11.freemysqlhosting.net",
-    "dialect": "mysql"
+    "dialect": "sqlite",
+    "storage": "library.db"
   },
   "test": {
     "username": "sql11440457",
@@ -14,10 +11,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "sql11440457",
-    "password": "yw3NGcx5jt",
-    "database": "sql11440457",
-    "host": "sql11.freemysqlhosting.net",
+    "username": "project08",
+    "password": "yw3NGcx5jt!",
+    "database": "project08",
+    "host": "localhost",
     "dialect": "mysql"
   }
 }
